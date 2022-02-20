@@ -2,7 +2,7 @@ package builder
 
 import (
 	"errors"
-	"os"
+	"fmt"
 
 	"github.com/karmek-k/ssgbuild/utils"
 )
@@ -18,10 +18,9 @@ type BuildConfig struct {
 // Build builds the website with given parameters
 // and returns an error if there is any
 func Build(cfg *BuildConfig) error {
-	// change to the build directory
-	os.Chdir(cfg.BaseDir)
-	if _, err := os.Getwd(); err != nil {
-		return errors.New("failed changing to the base directory")
+	// check the build directory
+	if err := CheckDir(cfg.BaseDir); err != nil {
+		return fmt.Errorf("checking base dir failed: %s", err.Error())
 	}
 
 	// run the install command
@@ -33,6 +32,11 @@ func Build(cfg *BuildConfig) error {
 	if utils.StringToCmd(cfg.BuildCmd).Run() != nil {
 		return errors.New("failed running the install command")
 	}
+
+	// check the result directory
+	if err := CheckDir(cfg.ResultDir); err != nil {
+		return fmt.Errorf("checking result dir failed: %s", err.Error())
+	} 
 
 	return nil
 }
