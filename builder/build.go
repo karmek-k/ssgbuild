@@ -3,7 +3,8 @@ package builder
 import (
 	"errors"
 	"os"
-	"os/exec"
+
+	"github.com/karmek-k/ssgbuild/utils"
 )
 
 // BuildConfig struct defines how the site should be built
@@ -24,12 +25,12 @@ func Build(cfg *BuildConfig) error {
 	}
 
 	// run the install command
-	if exec.Command(cfg.InstallCmd).Run() != nil {
+	if utils.StringToCmd(cfg.InstallCmd).Run() != nil {
 		return errors.New("failed running the install command")
 	}
 
 	// run the build command
-	if exec.Command(cfg.BuildCmd).Run() != nil {
+	if utils.StringToCmd(cfg.BuildCmd).Run() != nil {
 		return errors.New("failed running the install command")
 	}
 
