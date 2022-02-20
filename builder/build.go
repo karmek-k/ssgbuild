@@ -3,19 +3,27 @@ package builder
 import (
 	"errors"
 	"os"
+	"os/exec"
 )
 
-func Build(baseDir, command, resultDir string) error {
+// Build builds the website with given parameters
+// and returns an error if there is any
+func Build(baseDir, installCmd, buildCmd, resultDir string) error {
+	// change to the build directory
 	os.Chdir(baseDir)
-	
 	if _, err := os.Getwd(); err != nil {
 		return errors.New("failed changing to the base directory")
 	}
 
-	// err := exec.Command(command).Run()
-	// if err != nil {
-	// 	return errors.New("failed running the build command")
-	// }
+	// run the install command
+	if exec.Command(installCmd).Run() != nil {
+		return errors.New("failed running the install command")
+	}
+
+	// run the build command
+	if exec.Command(buildCmd).Run() != nil {
+		return errors.New("failed running the install command")
+	}
 
 	return nil
 }
