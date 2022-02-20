@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/karmek-k/ssgbuild/builder"
+	"go.uber.org/zap"
 )
 
 func makeCfg() *builder.BuildConfig {
@@ -23,7 +24,10 @@ func makeCfg() *builder.BuildConfig {
 }
 
 func main() {
-	if err := builder.Build(makeCfg()); err != nil {
+	logger, _ := zap.NewDevelopment()
+	defer logger.Sync()
+
+	if err := builder.Build(makeCfg(), logger.Sugar()); err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)
 	}
