@@ -3,6 +3,7 @@ package builder
 import (
 	"errors"
 	"fmt"
+	"os"
 
 	"github.com/karmek-k/ssgbuild/utils"
 )
@@ -23,20 +24,33 @@ func Build(cfg *BuildConfig) error {
 		return fmt.Errorf("checking base dir failed: %s", err.Error())
 	}
 
+	// change to the build directory
+	if os.Chdir(cfg.BaseDir) != nil {
+		return errors.New("could not change the base directory")
+	}
+
 	// run the install command
-	if utils.StringToCmd(cfg.InstallCmd).Run() != nil {
-		return errors.New("failed running the install command")
+	installOut, err := utils.StringToCmd(cfg.InstallCmd).CombinedOutput()
+	if err != nil {
+		return fmt.Errorf(
+			"failed running the install command - output:\n%s",
+			string(installOut),
+		)
 	}
 
 	// run the build command
-	if utils.StringToCmd(cfg.BuildCmd).Run() != nil {
-		return errors.New("failed running the install command")
+	buildOut, err := utils.StringToCmd(cfg.BuildCmd).CombinedOutput()
+	if err != nil {
+		return fmt.Errorf(
+			"failed running the build command - output:\n%s",
+			string(buildOut),
+		)
 	}
 
 	// check the result directory
 	if err := CheckDir(cfg.ResultDir); err != nil {
 		return fmt.Errorf("checking result dir failed: %s", err.Error())
-	} 
+	}
 
 	return nil
 }
