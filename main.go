@@ -8,7 +8,7 @@ import (
 	"github.com/karmek-k/ssgbuild/builder"
 )
 
-func main() {
+func makeCfg() *builder.BuildConfig {
 	cfg, err := builder.BuildConfigFromArgs()
 	if err != nil {
 		os.Exit(1)
@@ -18,7 +18,11 @@ func main() {
 		os.Exit(0)
 	}
 
-	if builder.Build(cfg) != nil {
+	return cfg
+}
+
+func main() {
+	if err := builder.Build(makeCfg()); err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)
 	}
