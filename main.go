@@ -11,6 +11,7 @@ import (
 func makeCfg() *builder.BuildConfig {
 	cfg, err := builder.BuildConfigFromArgs()
 	if err != nil {
+		flag.PrintDefaults()
 		os.Exit(1)
 	}
 	if cfg == nil {
