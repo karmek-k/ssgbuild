@@ -4,11 +4,11 @@ import (
 	"flag"
 	"fmt"
 	"os"
+
+	"github.com/karmek-k/ssgbuild/builder"
 )
 
 func main() {
-	fmt.Println("ssgbuild")
-
 	showHelp := flag.Bool("help", false, "show help")
 	baseDir := flag.String("d", "", "the directory to change to for build")
 	command := flag.String("c", "", "command used for building")
@@ -20,10 +20,11 @@ func main() {
 		os.Exit(0)
 	}
 
-	fmt.Printf(
-		"baseDir=%s command=%s resultDir=%s\n",
-		*baseDir,
-		*command,
-		*resultDir,
-	)
+	err := builder.Build(*baseDir, *command, *resultDir)
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+
+	fmt.Println("site was built successfully")
 }
