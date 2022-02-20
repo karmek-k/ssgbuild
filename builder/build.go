@@ -11,6 +11,7 @@ import (
 
 // BuildConfig struct defines how the site should be built
 type BuildConfig struct {
+	Name string
 	BaseDir string
 	InstallCmd string
 	BuildCmd string
@@ -21,7 +22,7 @@ type BuildConfig struct {
 // and returns an error if there is any
 func Build(cfg *BuildConfig, log *zap.SugaredLogger) error {
 	log.Infow("starting a build",
-		"dir", cfg.BaseDir,
+		"name", cfg.Name,
 	)
 
 	// check & chango to the base directory
@@ -30,6 +31,7 @@ func Build(cfg *BuildConfig, log *zap.SugaredLogger) error {
 	)
 	if err := CheckDir(cfg.BaseDir); err != nil {
 		log.Errorw("checking base dir failed",
+			"name", cfg.Name,
 			"dir", cfg.BaseDir,
 			"error", err.Error(),
 		)
@@ -39,6 +41,7 @@ func Build(cfg *BuildConfig, log *zap.SugaredLogger) error {
 
 	if os.Chdir(cfg.BaseDir) != nil {
 		log.Errorw("changing to base dir failed",
+			"name", cfg.Name,
 			"dir", cfg.BaseDir,
 		)
 
@@ -52,6 +55,7 @@ func Build(cfg *BuildConfig, log *zap.SugaredLogger) error {
 	installOut, err := utils.StringToCmd(cfg.InstallCmd).CombinedOutput()
 	if err != nil {
 		log.Errorw("install command failed",
+			"name", cfg.Name,
 			"out", string(installOut),
 		)
 
@@ -65,6 +69,7 @@ func Build(cfg *BuildConfig, log *zap.SugaredLogger) error {
 	buildOut, err := utils.StringToCmd(cfg.BuildCmd).CombinedOutput()
 	if err != nil {
 		log.Errorw("build command failed",
+			"name", cfg.Name,
 			"out", string(buildOut),
 		)
 
@@ -77,6 +82,7 @@ func Build(cfg *BuildConfig, log *zap.SugaredLogger) error {
 	)
 	if err := CheckDir(cfg.ResultDir); err != nil {
 		log.Errorw("checking result dir failed",
+			"name", cfg.Name,
 			"dir", cfg.ResultDir,
 		)
 
@@ -84,7 +90,7 @@ func Build(cfg *BuildConfig, log *zap.SugaredLogger) error {
 	}
 
 	log.Infow("build succeeded",
-		"dir", cfg.BaseDir,
+		"name", cfg.Name,
 	)
 
 	return nil

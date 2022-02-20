@@ -13,6 +13,7 @@ func BuildConfigFromArgs() (*BuildConfig, error) {
 	buildCmd := flag.String("b", "npm run build", "command used for building")
 	installCmd := flag.String("i", "npm install", "command used for installing dependencies")
 	resultDir := flag.String("r", "dist", "result directory created by the build command")
+	buildName := flag.String("n", "Test build", "build name")
 	flag.Parse()
 
 	// let the outer function handle displaying help
@@ -28,6 +29,7 @@ func BuildConfigFromArgs() (*BuildConfig, error) {
 	}
 
 	cfg := BuildConfig{
+		Name: *buildName,
 		BaseDir: *baseDir,
 		InstallCmd: *installCmd,
 		BuildCmd: *buildCmd,
