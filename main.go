@@ -11,9 +11,9 @@ import (
 func main() {
 	showHelp := flag.Bool("help", false, "show help")
 	baseDir := flag.String("d", "", "the directory to change to for build")
-	buildCmd := flag.String("c", "", "command used for building")
+	buildCmd := flag.String("b", "npm run build", "command used for building")
 	installCmd := flag.String("i", "npm install", "command used for installing dependencies")
-	resultDir := flag.String("r", "", "result directory created by the build command")
+	resultDir := flag.String("r", "dist", "result directory created by the build command")
 	flag.Parse()
 
 	if *showHelp ||
@@ -25,7 +25,14 @@ func main() {
 		os.Exit(0)
 	}
 
-	err := builder.Build(*baseDir, *installCmd, *buildCmd, *resultDir)
+	cfg := builder.BuildConfig{
+		BaseDir: *baseDir,
+		InstallCmd: *installCmd,
+		BuildCmd: *buildCmd,
+		ResultDir: *resultDir,
+	}
+
+	err := builder.Build(cfg)
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)
