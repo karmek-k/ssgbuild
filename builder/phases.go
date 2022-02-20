@@ -9,7 +9,7 @@ import (
 func CheckDir(dir string) error {
 	stat, err := os.Stat(dir)
 	if err != nil {
-		return fmt.Errorf("failed checking the directory %s", dir)
+		return err
 	}
 	
 	// is dir a directory?
