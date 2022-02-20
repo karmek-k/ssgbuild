@@ -16,7 +16,7 @@ type BuildConfig struct {
 
 // Build builds the website with given parameters
 // and returns an error if there is any
-func Build(cfg BuildConfig) error {
+func Build(cfg *BuildConfig) error {
 	// change to the build directory
 	os.Chdir(cfg.BaseDir)
 	if _, err := os.Getwd(); err != nil {
