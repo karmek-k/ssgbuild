@@ -3,19 +3,21 @@ package phases
 import (
 	"errors"
 
+	"github.com/karmek-k/ssgbuild/builder"
 	"github.com/karmek-k/ssgbuild/utils"
-	"go.uber.org/zap"
 )
 
-func BuildCmdPhase(cfg *BuildConfig, log *zap.SugaredLogger) error {
-	log.Debugw("running the build command",
-		"cmd", cfg.BuildCmd,
+type BuildCmdPhase struct {}
+
+func (p *BuildCmdPhase) Perform(b *builder.Build) error {
+	b.Log.Debugw("running the build command",
+		"cmd", b.Cfg.BuildCmd,
 	)
 	
-	buildOut, err := utils.StringToCmd(cfg.BuildCmd).CombinedOutput()
+	buildOut, err := utils.StringToCmd(b.Cfg.BuildCmd).CombinedOutput()
 	if err != nil {
-		log.Errorw("build command failed",
-			"name", cfg.Name,
+		b.Log.Errorw("build command failed",
+			"name", b.Cfg.Name,
 			"out", string(buildOut),
 		)
 

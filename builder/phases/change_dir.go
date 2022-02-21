@@ -5,29 +5,33 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/karmek-k/ssgbuild/builder"
 	"github.com/karmek-k/ssgbuild/utils"
-	"go.uber.org/zap"
 )
 
-func ChangeBaseDirPhase(cfg *BuildConfig, log *zap.SugaredLogger) error {
-	log.Debugw("changing to the base directory",
-		"dir", cfg.BaseDir,
+type ChangeBaseDirPhase struct {
+	Phase
+}
+
+func (p *ChangeBaseDirPhase) Perform(b *builder.Build) error {
+	b.Log.Debugw("changing to the base directory",
+		"dir", b.Cfg.BaseDir,
 	)
 	
-	if err := utils.CheckDir(cfg.BaseDir); err != nil {
-		log.Errorw("checking base dir failed",
-			"name", cfg.Name,
-			"dir", cfg.BaseDir,
+	if err := utils.CheckDir(b.Cfg.BaseDir); err != nil {
+		b.Log.Errorw("checking base dir failed",
+			"name", b.Cfg.Name,
+			"dir", b.Cfg.BaseDir,
 			"error", err.Error(),
 		)
 
 		return fmt.Errorf("checking base dir failed: %s", err.Error())
 	}
 
-	if os.Chdir(cfg.BaseDir) != nil {
-		log.Errorw("changing to base dir failed",
-			"name", cfg.Name,
-			"dir", cfg.BaseDir,
+	if os.Chdir(b.Cfg.BaseDir) != nil {
+		b.Log.Errorw("changing to base dir failed",
+			"name", b.Cfg.Name,
+			"dir", b.Cfg.BaseDir,
 		)
 
 		return errors.New("could not change the base directory")

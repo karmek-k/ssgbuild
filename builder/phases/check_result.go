@@ -3,11 +3,14 @@ package phases
 import (
 	"fmt"
 
+	"github.com/karmek-k/ssgbuild/builder"
 	"github.com/karmek-k/ssgbuild/utils"
 	"go.uber.org/zap"
 )
 
-func CheckResultPhase(cfg *BuildConfig, log *zap.SugaredLogger) error {
+type CheckResultPhase struct {}
+
+func (p *CheckResultPhase) Perform(cfg *builder.BuildConfig, log *zap.SugaredLogger) error {
 	log.Debugw("checking the result dir",
 		"dir", cfg.ResultDir,
 	)

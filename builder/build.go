@@ -14,35 +14,27 @@ type BuildConfig struct {
 	ResultDir string
 }
 
-// Build builds the website with given parameters
+type Build struct {
+	Cfg *BuildConfig
+	Log *zap.SugaredLogger
+}
+
+// Start builds the website with given parameters
 // and returns an error if there is any
-func Build(cfg *BuildConfig, log *zap.SugaredLogger) error {
-	log.Infow("starting a build",
-		"name", cfg.Name,
+func (b *Build) Start(phases []phases.Phase) error {
+	b.Log.Infow("starting a build",
+		"name", b.Cfg.Name,
 	)
 
-	// check & change to the base directory
-	if err := phases.ChangeBaseDirPhase(cfg, log); err != nil {
-		return err
+	// run all phases in order
+	for _, phase := range phases {
+		if err := phase.Perform(b); err != nil {
+			return err
+		}
 	}
 
-	// run the install command
-	if err := phases.InstallCmdPhase(cfg, log); err != nil {
-		return err
-	}
-
-	// run the build command
-	if err := phases.BuildCmdPhase(cfg, log); err != nil {
-		return err
-	}
-
-	// check the result directory
-	if err := phases.CheckResultPhase(cfg, log); err != nil {
-		return err
-	}
-
-	log.Infow("build succeeded",
-		"name", cfg.Name,
+	b.Log.Infow("build succeeded",
+		"name", b.Cfg.Name,
 	)
 
 	return nil

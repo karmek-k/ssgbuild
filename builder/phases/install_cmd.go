@@ -3,11 +3,14 @@ package phases
 import (
 	"errors"
 
+	"github.com/karmek-k/ssgbuild/builder"
 	"github.com/karmek-k/ssgbuild/utils"
 	"go.uber.org/zap"
 )
 
-func InstallCmdPhase(cfg *BuildConfig, log *zap.SugaredLogger) error {
+type InstallCmdPhase struct {}
+
+func (p *InstallCmdPhase) Perform(cfg *builder.BuildConfig, log *zap.SugaredLogger) error {
 	log.Debugw("running the install command",
 		"cmd", cfg.InstallCmd,
 	)
