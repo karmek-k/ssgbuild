@@ -9,11 +9,9 @@ import (
 	"github.com/karmek-k/ssgbuild/utils"
 )
 
-type ChangeBaseDirPhase struct {
-	Phase
-}
+type ChangeBaseDirPhase struct {}
 
-func (p *ChangeBaseDirPhase) Perform(b *builder.Build) error {
+func (p ChangeBaseDirPhase) Perform(b *builder.Build) error {
 	b.Log.Debugw("changing to the base directory",
 		"dir", b.Cfg.BaseDir,
 	)

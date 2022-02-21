@@ -9,7 +9,7 @@ import (
 
 type BuildCmdPhase struct {}
 
-func (p *BuildCmdPhase) Perform(b *builder.Build) error {
+func (p BuildCmdPhase) Perform(b *builder.Build) error {
 	b.Log.Debugw("running the build command",
 		"cmd", b.Cfg.BuildCmd,
 	)

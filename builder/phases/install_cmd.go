@@ -5,20 +5,19 @@ import (
 
 	"github.com/karmek-k/ssgbuild/builder"
 	"github.com/karmek-k/ssgbuild/utils"
-	"go.uber.org/zap"
 )
 
 type InstallCmdPhase struct {}
 
-func (p *InstallCmdPhase) Perform(cfg *builder.BuildConfig, log *zap.SugaredLogger) error {
-	log.Debugw("running the install command",
-		"cmd", cfg.InstallCmd,
+func (p InstallCmdPhase) Perform(b *builder.Build) error {
+	b.Log.Debugw("running the install command",
+		"cmd", b.Cfg.InstallCmd,
 	)
 	
-	installOut, err := utils.StringToCmd(cfg.InstallCmd).CombinedOutput()
+	installOut, err := utils.StringToCmd(b.Cfg.InstallCmd).CombinedOutput()
 	if err != nil {
-		log.Errorw("install command failed",
-			"name", cfg.Name,
+		b.Log.Errorw("install command failed",
+			"name", b.Cfg.Name,
 			"out", string(installOut),
 		)
 
