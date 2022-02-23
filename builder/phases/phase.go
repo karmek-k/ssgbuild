@@ -1,11 +1,8 @@
 package phases
 
-import (
-	"github.com/karmek-k/ssgbuild/builder"
-)
-
 type Phase interface {
-	Perform(b *builder.Build) error
+	Perform(args map[string]string) error
+	GetName() string
 }
 
 func DefaultPhases() []Phase {

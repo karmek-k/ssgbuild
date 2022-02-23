@@ -3,25 +3,19 @@ package phases
 import (
 	"fmt"
 
-	"github.com/karmek-k/ssgbuild/builder"
 	"github.com/karmek-k/ssgbuild/utils"
 )
 
 type CheckResultPhase struct {}
 
-func (p CheckResultPhase) Perform(b *builder.Build) error {
-	b.Log.Debugw("checking the result dir",
-		"dir", b.Cfg.ResultDir,
-	)
-
-	if err := utils.CheckDir(b.Cfg.ResultDir); err != nil {
-		b.Log.Errorw("checking result dir failed",
-			"name", b.Cfg.Name,
-			"dir", b.Cfg.ResultDir,
-		)
-
+func (p CheckResultPhase) Perform(args map[string]string) error {
+	if err := utils.CheckDir(args["ResultDir"]); err != nil {
 		return fmt.Errorf("checking result dir failed: %s", err.Error())
 	}
 
 	return nil
+}
+
+func (p CheckResultPhase) GetName() string {
+	return "Check the result directory"
 }

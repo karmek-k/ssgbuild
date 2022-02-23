@@ -1,28 +1,25 @@
 package phases
 
 import (
-	"errors"
+	"fmt"
 
-	"github.com/karmek-k/ssgbuild/builder"
 	"github.com/karmek-k/ssgbuild/utils"
 )
 
 type BuildCmdPhase struct {}
 
-func (p BuildCmdPhase) Perform(b *builder.Build) error {
-	b.Log.Debugw("running the build command",
-		"cmd", b.Cfg.BuildCmd,
-	)
-	
-	buildOut, err := utils.StringToCmd(b.Cfg.BuildCmd).CombinedOutput()
+func (p BuildCmdPhase) Perform(args map[string]string) error {
+	buildOut, err := utils.StringToCmd(args["BuildCmd"]).CombinedOutput()
 	if err != nil {
-		b.Log.Errorw("build command failed",
-			"name", b.Cfg.Name,
-			"out", string(buildOut),
+		return fmt.Errorf(
+			"failed running the build command\n%s",
+			string(buildOut),
 		)
-
-		return errors.New("failed running the build command")
 	}
 
 	return nil
+}
+
+func (p BuildCmdPhase) GetName() string {
+	return "Execute the build command"
 }

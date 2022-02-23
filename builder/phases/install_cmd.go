@@ -1,28 +1,25 @@
 package phases
 
 import (
-	"errors"
+	"fmt"
 
-	"github.com/karmek-k/ssgbuild/builder"
 	"github.com/karmek-k/ssgbuild/utils"
 )
 
 type InstallCmdPhase struct {}
 
-func (p InstallCmdPhase) Perform(b *builder.Build) error {
-	b.Log.Debugw("running the install command",
-		"cmd", b.Cfg.InstallCmd,
-	)
-	
-	installOut, err := utils.StringToCmd(b.Cfg.InstallCmd).CombinedOutput()
+func (p InstallCmdPhase) Perform(args map[string]string) error {
+	installOut, err := utils.StringToCmd(args["InstallCmd"]).CombinedOutput()
 	if err != nil {
-		b.Log.Errorw("install command failed",
-			"name", b.Cfg.Name,
-			"out", string(installOut),
+		return fmt.Errorf(
+			"failed running the install command\n%s",
+			string(installOut),
 		)
-
-		return errors.New("failed running the install command")
 	}
 
 	return nil
+}
+
+func (p InstallCmdPhase) GetName() string {
+	return "Execute the install command"
 }

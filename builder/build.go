@@ -14,6 +14,16 @@ type BuildConfig struct {
 	ResultDir string
 }
 
+func buildConfigToMap(c *BuildConfig) map[string]string {
+	return map[string]string{
+		"Name": c.Name,
+		"BaseDir": c.BaseDir,
+		"InstallCmd": c.InstallCmd,
+		"BuildCmd": c.BuildCmd,
+		"ResultDir": c.ResultDir,
+	}
+}
+
 type Build struct {
 	Cfg *BuildConfig
 	Log *zap.SugaredLogger
@@ -26,9 +36,25 @@ func (b *Build) Start(phases []phases.Phase) error {
 		"name", b.Cfg.Name,
 	)
 
+	// convert the BuildConfig object to map[string]string
+	// in order to prevent circular importing
+	// TODO: maybe there is a better way of achieving this?
+	args := buildConfigToMap(b.Cfg)
+
 	// run all phases in order
 	for _, phase := range phases {
-		if err := phase.Perform(b); err != nil {
+		b.Log.Debugw("running build phase",
+			"build", b.Cfg.Name,
+			"phase", phase.GetName(),
+		)
+
+		if err := phase.Perform(args); err != nil {
+			b.Log.Errorw("build failed",
+				"build", b.Cfg.Name,
+				"phase", phase.GetName(),
+				"error", err.Error(),
+			)
+
 			return err
 		}
 	}
@@ -39,3 +65,4 @@ func (b *Build) Start(phases []phases.Phase) error {
 
 	return nil
 }
+
