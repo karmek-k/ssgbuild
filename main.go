@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/karmek-k/ssgbuild/builder"
+	"github.com/karmek-k/ssgbuild/builder/phases"
 	"go.uber.org/zap"
 )
 
@@ -24,10 +25,18 @@ func makeCfg() *builder.BuildConfig {
 }
 
 func main() {
-	logger, _ := zap.NewDevelopment()
-	defer logger.Sync()
+	unsugared, _ := zap.NewDevelopment()
+	defer unsugared.Sync()
 
-	if err := builder.Build(makeCfg(), logger.Sugar()); err != nil {
+	cfg := makeCfg()
+	log := unsugared.Sugar()
+
+	build := builder.Build{
+		Cfg: cfg,
+		Log: log,
+	}
+
+	if err := build.Start(phases.DefaultPhases()); err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)
 	}
