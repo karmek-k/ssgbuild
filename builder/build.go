@@ -14,8 +14,8 @@ type BuildConfig struct {
 	ResultDir string
 }
 
-func buildConfigToMap(c *BuildConfig) map[string]string {
-	return map[string]string{
+func buildConfigToMap(c *BuildConfig) phases.PhaseArgs {
+	return phases.PhaseArgs{
 		"Name": c.Name,
 		"BaseDir": c.BaseDir,
 		"InstallCmd": c.InstallCmd,

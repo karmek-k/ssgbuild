@@ -8,7 +8,7 @@ import (
 
 type BuildCmdPhase struct {}
 
-func (p BuildCmdPhase) Perform(args map[string]string) error {
+func (p BuildCmdPhase) Perform(args PhaseArgs) error {
 	buildOut, err := utils.StringToCmd(args["BuildCmd"]).CombinedOutput()
 	if err != nil {
 		return fmt.Errorf(

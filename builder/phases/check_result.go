@@ -8,7 +8,7 @@ import (
 
 type CheckResultPhase struct {}
 
-func (p CheckResultPhase) Perform(args map[string]string) error {
+func (p CheckResultPhase) Perform(args PhaseArgs) error {
 	if err := utils.CheckDir(args["ResultDir"]); err != nil {
 		return fmt.Errorf("checking result dir failed: %s", err.Error())
 	}

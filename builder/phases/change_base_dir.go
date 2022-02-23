@@ -10,7 +10,7 @@ import (
 
 type ChangeBaseDirPhase struct {}
 
-func (p ChangeBaseDirPhase) Perform(args map[string]string) error {
+func (p ChangeBaseDirPhase) Perform(args PhaseArgs) error {
 	if err := utils.CheckDir(args["BaseDir"]); err != nil {
 		return fmt.Errorf("checking base dir failed: %s", err.Error())
 	}

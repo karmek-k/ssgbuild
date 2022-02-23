@@ -8,7 +8,7 @@ import (
 
 type InstallCmdPhase struct {}
 
-func (p InstallCmdPhase) Perform(args map[string]string) error {
+func (p InstallCmdPhase) Perform(args PhaseArgs) error {
 	installOut, err := utils.StringToCmd(args["InstallCmd"]).CombinedOutput()
 	if err != nil {
 		return fmt.Errorf(

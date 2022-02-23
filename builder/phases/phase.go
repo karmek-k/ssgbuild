@@ -1,7 +1,9 @@
 package phases
 
+type PhaseArgs map[string]string
+
 type Phase interface {
-	Perform(args map[string]string) error
+	Perform(args PhaseArgs) error
 	GetName() string
 }
 
