@@ -24,6 +24,8 @@ func buildConfigToMap(c *BuildConfig) phases.PhaseArgs {
 	}
 }
 
+// Build represents a single website build
+// that can be triggered with the Start method 
 type Build struct {
 	Cfg *BuildConfig
 	Log *zap.SugaredLogger
