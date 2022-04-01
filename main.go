@@ -25,11 +25,11 @@ func makeCfg() *builder.BuildConfig {
 }
 
 func main() {
-	unsugared, _ := zap.NewDevelopment()
-	defer unsugared.Sync()
+	unsugaredLog, _ := zap.NewDevelopment()
+	defer unsugaredLog.Sync()
 
 	cfg := makeCfg()
-	log := unsugared.Sugar()
+	log := unsugaredLog.Sugar()
 
 	build := builder.Build{
 		Cfg: cfg,
