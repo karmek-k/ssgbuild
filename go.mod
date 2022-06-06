@@ -3,6 +3,7 @@ module github.com/karmek-k/ssgbuild
 go 1.18
 
 require (
+	github.com/go-chi/chi/v5 v5.0.7
 	github.com/stretchr/testify v1.7.2
 	go.uber.org/zap v1.21.0
 )
