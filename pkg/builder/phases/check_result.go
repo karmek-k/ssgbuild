@@ -3,10 +3,10 @@ package phases
 import (
 	"fmt"
 
-	"github.com/karmek-k/ssgbuild/utils"
+	"github.com/karmek-k/ssgbuild/pkg/utils"
 )
 
-type CheckResultPhase struct {}
+type CheckResultPhase struct{}
 
 func (p CheckResultPhase) Perform(args PhaseArgs) error {
 	if err := utils.CheckDir(args["ResultDir"]); err != nil {

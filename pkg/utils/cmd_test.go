@@ -4,7 +4,7 @@ import (
 	"os/exec"
 	"testing"
 
-	"github.com/karmek-k/ssgbuild/utils"
+	"github.com/karmek-k/ssgbuild/pkg/utils"
 	"github.com/stretchr/testify/assert"
 )
 

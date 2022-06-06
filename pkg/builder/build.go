@@ -1,31 +1,31 @@
 package builder
 
 import (
-	"github.com/karmek-k/ssgbuild/builder/phases"
+	"github.com/karmek-k/ssgbuild/pkg/builder/phases"
 	"go.uber.org/zap"
 )
 
 // BuildConfig struct defines how the site should be built
 type BuildConfig struct {
-	Name string
-	BaseDir string
+	Name       string
+	BaseDir    string
 	InstallCmd string
-	BuildCmd string
-	ResultDir string
+	BuildCmd   string
+	ResultDir  string
 }
 
 func buildConfigToMap(c *BuildConfig) phases.PhaseArgs {
 	return phases.PhaseArgs{
-		"Name": c.Name,
-		"BaseDir": c.BaseDir,
+		"Name":       c.Name,
+		"BaseDir":    c.BaseDir,
 		"InstallCmd": c.InstallCmd,
-		"BuildCmd": c.BuildCmd,
-		"ResultDir": c.ResultDir,
+		"BuildCmd":   c.BuildCmd,
+		"ResultDir":  c.ResultDir,
 	}
 }
 
 // Build represents a single website build
-// that can be triggered with the Start method 
+// that can be triggered with the Start method
 type Build struct {
 	Cfg *BuildConfig
 	Log *zap.SugaredLogger
@@ -67,4 +67,3 @@ func (b *Build) Start(phases []phases.Phase) error {
 
 	return nil
 }
-

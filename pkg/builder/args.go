@@ -29,11 +29,11 @@ func BuildConfigFromArgs() (*BuildConfig, error) {
 	}
 
 	cfg := BuildConfig{
-		Name: *buildName,
-		BaseDir: *baseDir,
+		Name:       *buildName,
+		BaseDir:    *baseDir,
 		InstallCmd: *installCmd,
-		BuildCmd: *buildCmd,
-		ResultDir: *resultDir,
+		BuildCmd:   *buildCmd,
+		ResultDir:  *resultDir,
 	}
 
 	return &cfg, nil

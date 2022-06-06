@@ -3,10 +3,10 @@ package phases
 import (
 	"fmt"
 
-	"github.com/karmek-k/ssgbuild/utils"
+	"github.com/karmek-k/ssgbuild/pkg/utils"
 )
 
-type BuildCmdPhase struct {}
+type BuildCmdPhase struct{}
 
 func (p BuildCmdPhase) Perform(args PhaseArgs) error {
 	buildOut, err := utils.StringToCmd(args["BuildCmd"]).CombinedOutput()

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/karmek-k/ssgbuild/builder"
-	"github.com/karmek-k/ssgbuild/builder/phases"
+	"github.com/karmek-k/ssgbuild/pkg/builder"
+	"github.com/karmek-k/ssgbuild/pkg/builder/phases"
 	"go.uber.org/zap"
 )
 

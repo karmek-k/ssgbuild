@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/karmek-k/ssgbuild/utils"
+	"github.com/karmek-k/ssgbuild/pkg/utils"
 )
 
-type ChangeBaseDirPhase struct {}
+type ChangeBaseDirPhase struct{}
 
 func (p ChangeBaseDirPhase) Perform(args PhaseArgs) error {
 	if err := utils.CheckDir(args["BaseDir"]); err != nil {
